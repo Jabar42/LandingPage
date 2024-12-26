@@ -3,7 +3,7 @@
  * Plugin Name:       landingPage
  * Plugin URI: https://example.com/plugins/the-basics/
  * Description: Describe what the plugin does.
- * Version: 1.0.9
+ * Version: 1.0.10
  * Requires at least: 5.5
  * Requires PHP: 5.3
  * Author: John Smith
@@ -14,6 +14,28 @@
  * Text Domain: landingpage
  * Domain Path: /languages
 */
+
+// Registrar la plantilla personalizada
+function my_plugin_register_templates($templates) {
+    $templates['blank-template.php'] = 'Blank Page';
+    return $templates;
+}
+add_filter('theme_page_templates', 'my_plugin_register_templates');
+
+// Cargar la plantilla desde el plugin
+function my_plugin_load_template($template) {
+    if (is_page_template('blank-template.php')) {
+        $plugin_dir = plugin_dir_path(__FILE__);
+        $template = $plugin_dir . 'blank-template.php';
+    }
+    return $template;
+}
+add_filter('template_include', 'my_plugin_load_template');
+
+
+
+
+
 
 if ( ! function_exists( 'landingpage_plugin_base_url' ) ) :
 
@@ -168,6 +190,7 @@ endif;
 require_once "inc/custom.php";
 if( !class_exists( 'PG_Helper_v2' ) ) { require_once "inc/wp_pg_helpers.php"; }
 if( !class_exists( 'PG_Blocks_v3' ) ) { require_once "inc/wp_pg_blocks_helpers.php"; }
+if( !class_exists( 'PG_Simple_Form_Mailer' ) ) { require_once "inc/wp_simple_form_mailer.php"; }
 
     /* Pinegrow generated Include Resources End */
 
