@@ -1,4 +1,4 @@
-<footer <?php if(empty($_GET['context']) || $_GET['context'] !== 'edit') echo get_block_wrapper_attributes( array('class' => "font-light pt-12 text-gray-300", 'style' => "background-color: #bf523f;", ) ); else echo 'data-wp-block-props="true"'; ?>> 
+<section <?php if(empty($_GET['context']) || $_GET['context'] !== 'edit') echo get_block_wrapper_attributes( array('class' => "font-light pt-12 text-gray-300", 'style' => "background-color: #bf523f;", ) ); else echo 'data-wp-block-props="true"'; ?>> 
     <div class="container mx-auto px-4 relative"> 
         <div class="flex flex-wrap -mx-4"> 
             <div class="w-full p-4 xl:mr-auto">                  
@@ -31,4 +31,4 @@ Call us: 732.987.9870 or visit us at actovia.com', 'landingpage' ); ?></p>
             <p class="text-sm"><?php _e( 'Copyright &copy; 2024 Actovia', 'landingpage' ); ?></p> 
         </div>         
     </div>     
-</footer>
+</section>

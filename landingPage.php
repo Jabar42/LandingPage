@@ -3,7 +3,7 @@
  * Plugin Name:       landingPage
  * Plugin URI: https://example.com/plugins/the-basics/
  * Description: Describe what the plugin does.
- * Version: 1.0.10
+ * Version: 1.0.17
  * Requires at least: 5.5
  * Requires PHP: 5.3
  * Author: John Smith

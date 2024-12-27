@@ -7,7 +7,6 @@ Template Name: Blank Page
 <html>
 <head>
     <title><?php wp_title(); ?></title>
-    <?php wp_head(); ?>
 </head>
 <body>
     <?php
@@ -18,6 +17,6 @@ Template Name: Blank Page
         endwhile;
     endif;
     ?>
-    <?php wp_footer(); ?>
+
 </body>
 </html>
