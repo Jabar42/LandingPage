@@ -14,6 +14,71 @@
  * Text Domain: landingpage
  * Domain Path: /languages
 */
+// Manejo de actualizaciones desde GitHub.
+add_filter('pre_set_site_transient_update_plugins', 'landing_page_plugin_verificar_actualizaciones');
+add_filter('plugins_api', 'landing_page_plugin_informacion_adicional', 10, 3);
+
+function landing_page_plugin_verificar_actualizaciones($transient) {
+    if (empty($transient->checked)) {
+        return $transient;
+    }
+
+    $plugin_slug = 'landing-page-plugin';
+    $version_actual = '1.0.0';
+    $repositorio_github = 'https://api.github.com/repos/Jabar42/LandingPage/releases/latest';
+
+    $respuesta = wp_remote_get($repositorio_github);
+
+    if (is_wp_error($respuesta) || 200 !== wp_remote_retrieve_response_code($respuesta)) {
+        return $transient;
+    }
+
+    $datos = json_decode(wp_remote_retrieve_body($respuesta));
+
+    if (version_compare($version_actual, $datos->tag_name, '<')) {
+        $objeto_actualizacion = new stdClass();
+        $objeto_actualizacion->slug = $plugin_slug;
+        $objeto_actualizacion->new_version = $datos->tag_name;
+        $objeto_actualizacion->url = $datos->html_url;
+        $objeto_actualizacion->package = $datos->assets[0]->browser_download_url;
+
+        $transient->response[$plugin_slug . '/' . $plugin_slug . '.php'] = $objeto_actualizacion;
+    }
+
+    return $transient;
+}
+
+function landing_page_plugin_informacion_adicional($res, $action, $args) {
+    if ('plugin_information' !== $action) {
+        return $res;
+    }
+
+    if ('landing-page-plugin' !== $args->slug) {
+        return $res;
+    }
+
+    $repositorio_github = 'https://api.github.com/repos/Jabar42/LandingPage/releases/latest';
+    $respuesta = wp_remote_get($repositorio_github);
+
+    if (is_wp_error($respuesta) || 200 !== wp_remote_retrieve_response_code($respuesta)) {
+        return $res;
+    }
+
+    $datos = json_decode(wp_remote_retrieve_body($respuesta));
+
+    $res = (object) array(
+        'name' => 'Landing Page Plugin',
+        'slug' => $args->slug,
+        'version' => $datos->tag_name,
+        'download_link' => $datos->assets[0]->browser_download_url,
+        'sections' => array(
+            'description' => 'Este plugin permite manejar landing pages y admite actualizaciones desde GitHub.',
+            'changelog' => 'Cambios en la nueva versión.',
+        ),
+    );
+
+    return $res;
+}
 
 // Registrar la plantilla personalizada
 function my_plugin_register_templates($templates) {
