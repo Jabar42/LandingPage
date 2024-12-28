@@ -24,7 +24,7 @@ function landing_page_plugin_verificar_actualizaciones($transient) {
     }
 
     $plugin_slug = 'landing-page-plugin';
-    $version_actual = '1.0.0';
+    $version_actual = 'v1.0.18';
     $repositorio_github = 'https://api.github.com/repos/Jabar42/LandingPage/releases/latest';
 
     $respuesta = wp_remote_get($repositorio_github);
